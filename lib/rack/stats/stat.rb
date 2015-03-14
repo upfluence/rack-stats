@@ -9,7 +9,8 @@ module Rack
         end
 
         def execute(batch, request, duration, response)
-          if @condition.nil? || @condition.call(request, duration, response)
+          if duration.ms > 0 && \
+            (@condition.nil? || @condition.call(request, duration, response))
             send_data(batch, request, duration, response)
           end
         end
