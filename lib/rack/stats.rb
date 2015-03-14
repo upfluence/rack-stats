@@ -36,6 +36,7 @@ module Rack
       @app = app
       @namespace = args.fetch(:namespace, ENV['RACK_STATS_NAMESPACE'])
       @statsd = Statsd.new(*args.fetch(:statsd, '127.0.0.1:8125').split(':'))
+      @statsd.tap { |sd| sd.namespace = @namespace } if @namespace
       @stats = args.fetch(:stats, DEFAULT_STATS)
     end
 
