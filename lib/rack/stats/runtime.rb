@@ -6,12 +6,12 @@ require 'rack/stats/stat'
 module Rack
   class Stats
     class Runtime
-      def initialize(statsd, app, env, stats)
+      def initialize(statsd, app, env, stats, namespace)
         @batch = Statsd::Batch.new statsd
         @app, @env, @timer = app, env, Timer.new
         @stats = stats.map do |stat|
           klass = stat[:type] == :increment ? Stat::Increment : Stat::Timing
-          klass.new stat[:name], stat[:value], stat[:condition]
+          klass.new stat[:name], stat[:value], stat[:condition], namespace
         end
       end
 

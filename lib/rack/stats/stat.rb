@@ -2,9 +2,10 @@ module Rack
   class Stats
     module Stat
       class Base
-        def initialize(compute_name, compute_value = nil, condition = nil)
-          @compute_name, @compute_value, @condition = \
-            compute_name, compute_value, condition
+        def initialize(compute_name, compute_value = nil,
+                       condition = nil, namespace = nil)
+          @compute_name, @compute_value, @condition, @namespace = \
+            compute_name, compute_value, condition, namespace
         end
 
         def execute(batch, request, duration, response)
@@ -18,7 +19,10 @@ module Rack
         def send_data(batch, request, duration, response)
           batch.send(
             :timing,
-            [@compute_name.call(request, duration, response)].compact.join('.'),
+            [
+              @namespace,
+              @compute_name.call(request, duration, response)
+            ].flatten.compact.join('.'),
             @compute_value.call(request, duration, response)
           )
         end
@@ -28,7 +32,10 @@ module Rack
         def send_data(batch, request, duration, response)
           batch.send(
             :increment,
-            [@compute_name.call(request, duration, response)].compact.join('.')
+            [
+              @namespace,
+              @compute_name.call(request, duration, response)
+            ].flatten.compact.join('.')
           )
         end
       end
