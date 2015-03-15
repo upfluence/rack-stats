@@ -12,7 +12,10 @@ module Rack
       {
         name: lambda do |req, _d, _resp|
           [
-            req.path.eql?('/') ? 'index' : req.path.gsub(/\//, '-'),
+            req.path.eql?('/') ? 'index' : \
+              req.path[1..-1].gsub(/\/\d+\//, '/id/')
+                             .gsub(/\/\d+$/, '/id')
+                             .gsub(/\//, '_'),
             req.request_method.downcase,
             'request_duration'
           ]
