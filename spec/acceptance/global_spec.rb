@@ -10,6 +10,10 @@ describe Rack::Stats do
     { name: -> (*_args) { 'foo' }, value: -> (*_args) { 42 }, type: :timing }
   end
 
+  before do
+    allow_any_instance_of(Rack::Stats::Duration).to receive(:ms).and_return(300)
+  end
+
   after { middleware.call(env) }
 
   subject { Statsd::Batch  }
