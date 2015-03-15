@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["alexis.montagne@gmail.com"]
   spec.summary       = %q{Customisable rack middleware to instrument to instrument your application}
   spec.description   = %q{Customisable rack middleware to instrument to instrument your application}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/upfluence/rack-stats"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
